@@ -9,12 +9,97 @@ description: ""
 
 imports:
   - tosca-normative-types:1.0.0-ALIEN20
-  - inventory-user-node-plugin:1.0.0-SNAPSHOT
+  - inventory-node-plugin:1.0.0-SNAPSHOT
 
 topology_template:
+  inputs:
+    vlanfields:
+      type: com.commscope.flow.datatypes.inventory.Vlan
+      required: false
+      description: "Fill in fields if target node type is Vlan"
+    customerfields:
+      type: com.commscope.flow.datatypes.inventory.Customer
+      required: false
+      description: "Fill in fields if target node type is Customer"
+    DOCSISservicefields:
+      type: com.commscope.flow.datatypes.inventory.DOCSISService
+      required: false
+      description: "Fill in fields if target node type is docsisservice"
+    type:
+      type: string
+      required: true
+      description: "one of [switch,ecore,port,vlan,rpd,cin-service,docsis-service,customer,external-system,edge]"
+    rpdfields:
+      type: com.commscope.flow.datatypes.inventory.Rpd
+      required: false
+      description: "Fill in fields if target node type is Rpd"
+    CINservicefields:
+      type: com.commscope.flow.datatypes.inventory.CINService
+      required: false
+      description: "Fill in fields if target node type is Cin-service"
+    portfields:
+      type: com.commscope.flow.datatypes.inventory.Port
+      required: false
+      description: "Fill in fields if target node type is port"
+    switchfields:
+      type: com.commscope.flow.datatypes.inventory.Switch
+      required: false
+      description: "Fill in fields if target node type is switch"
+    sitefields:
+      type: com.commscope.flow.datatypes.inventory.Site
+      required: false
+      description: "Fill in fields if target node type is Site"
+    ecorefields:
+      type: com.commscope.flow.datatypes.inventory.Ecore
+      required: false
+      description: "Fill in fields if target node type is ecore"
+    tenantId:
+      type: string
+      required: true
+    action:
+      type: string
+      required: true
+      description: "one of [create,delete,update]"
+    id:
+      type: string
+      required: true
+      description: "Node/Edge id"
+    edgefields:
+      type: com.commscope.flow.datatypes.inventory.Edge
+      required: false
+      description: "Fill in fields if target is edge"
+    externalsystemfields:
+      type: com.commscope.flow.datatypes.inventory.ExternalSystem
+      required: false
+      description: "Fill in fields if target node type is external-system"
   node_templates:
-    inventoryuser:
+    inventory:
       metadata:
-        a4c_edit_x: 15
-        a4c_edit_y: "-12"
-      type: com.commscope.flow.plugins.inventoryuser
+        a4c_edit_x: "-5"
+        a4c_edit_y: "-11"
+      type: com.commscope.flow.plugins.inventory
+      properties:
+        id: { get_input: id }
+        tenantId: { get_input: tenantId }
+        type: { get_input: type }
+        action: { get_input: action }
+        switchfields: { get_input: switchfields }
+        portfields: { get_input: portfields }
+        vlanfields: { get_input: vlanfields }
+        ecorefields: { get_input: ecorefields }
+        rpdfields: { get_input: rpdfields }
+        customerfields: { get_input: customerfields }
+        sitefields: { get_input: sitefields }
+        externalsystemfields: { get_input: externalsystemfields }
+        CINservicefields: { get_input: CINservicefields }
+        DOCSISservicefields: { get_input: DOCSISservicefields }
+        edgefields: 
+          Origin: "api.edge"
+          Parent: a4cecore1
+          Metadata: 
+            RelationType: layer2
+            user-id: InventoryClient1
+            source: telemetry
+            tenant-id: a4ct1
+          ID: a4cedge1
+          Child: a4crpd1
