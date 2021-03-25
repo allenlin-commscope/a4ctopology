@@ -3,7 +3,7 @@ tosca_definitions_version: alien_dsl_3_0_0
 metadata:
   template_name: Appmanager2
   template_version: 0.1.0-SNAPSHOT
-  template_author: appmanager
+  template_author: admin
 
 description: ""
 
@@ -72,6 +72,8 @@ topology_template:
       type: com.commscope.flow.datatypes.inventory.ExternalSystem
       required: false
       description: "Fill in fields if target node type is external-system"
+  substitution_mappings:
+    node_type: tosca.nodes.Container.Application
   node_templates:
     inventory:
       metadata:
